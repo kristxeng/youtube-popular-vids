@@ -20,13 +20,10 @@ export class GoogleYoutubeApiService {
   }
 
   getParams(): HttpParams {
-    let params = new HttpParams();
-
-    params = params.append('part', 'snippet,contentDetails');
-    params = params.append('chart', 'mostPopular');
-    params = params.append('maxResults', '1');
-    params = params.append('key', GoogleApi.token);
-
-    return params;
+    return new HttpParams()
+      .set('part', 'snippet,contentDetails')
+      .set('chart', 'mostPopular')
+      .set('maxResults', '1')
+      .set('key', GoogleApi.token);
   }
 }
