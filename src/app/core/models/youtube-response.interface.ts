@@ -18,18 +18,20 @@ export interface VidItem {
   tags: Array<string>;
   categoryId: string;
   liveBroadcastContent: string;
-  snippet: {
-    publishedAt: string;
-    channelId: string;
-    title: string;
-    description: string;
-    thumbnails: VidThumbnails;
-  };
+  snippet: VidSnippet;
   localized: {
     title: string;
     description: string;
   };
   contentDetails: VidContentDetails;
+}
+
+export interface VidSnippet {
+  publishedAt: string;
+  channelId: string;
+  title: string;
+  description: string;
+  thumbnails: VidThumbnails;
 }
 
 export interface VidThumbnails {
