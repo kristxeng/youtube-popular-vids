@@ -23,7 +23,8 @@ export class GoogleYoutubeApiService {
     return new HttpParams()
       .set('part', 'snippet,contentDetails')
       .set('chart', 'mostPopular')
-      .set('maxResults', '1')
+      .set('maxResults', '100')
+      .set('regionCode', 'TW')
       .set('key', GoogleApi.token);
   }
 }
