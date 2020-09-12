@@ -11,6 +11,8 @@ export class HomeComponent implements OnInit {
 
   data: Array<VidItem>;
 
+  page
+
   constructor(
     private readonly apiService: GoogleYoutubeApiService,
   ) { }

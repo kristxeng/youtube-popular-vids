@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { CollectionComponent } from './collection/collection.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     SharedModule,
     BrowserModule,
+    NgxPaginationModule,
     AppRoutingModule,
     HttpClientModule
   ],

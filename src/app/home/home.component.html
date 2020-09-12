@@ -1,1 +1,5 @@
-<app-card *ngFor="let item of data" [data]="item"></app-card>
+<div class="card-container">
+  <app-card *ngFor="let item of data | paginate: { itemsPerPage: 12, currentPage: page }" [data]="item"></app-card>
+</div>
+
+<pagination-controls (pageChange)="page = $event"></pagination-controls>
