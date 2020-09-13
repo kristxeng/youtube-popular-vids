@@ -8,19 +8,31 @@ import { filter, map } from 'rxjs/operators';
 
 const COLLECTION_KEY = 'collectionVids';
 
+interface CollectionVids {
+  data: VidItem[],
+  update: boolean,
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class DataHandlerService {
 
   vids$: Observable<VidItem[]>;
-  collectionVids: Array<VidItem>;
+  collectionVids$ = new BehaviorSubject<CollectionVids>(null);
 
   constructor(
     private readonly apiService: GoogleYoutubeApiService,
   ) {
     this.initVids$();
     this.initCollectionVids();
+
+    this.collectionVids$.pipe(
+      filter(item => !!item),
+      filter(item => item.update),
+    ).subscribe(item => {
+      this.setLocalStorage(item.data);
+    });
   }
 
   parseDuration(duration: string): string {
@@ -35,49 +47,51 @@ export class DataHandlerService {
     });
   }
 
-  getAlertInfo(isBookmarked: boolean): SweetAlertOptions {
-    if (isBookmarked) {
-      return ({
-        title: 'Removed from Collection',
-        icon: 'warning',
-        confirmButtonText: 'OK'
-      });
-    } else {
-      return ({
-        title: 'Saved to Collection',
-        icon: 'success',
-        confirmButtonText: 'OK'
-      });
+  isInCollection(id: string) {
+    return this.collectionVids$.value.data.findIndex( item => item.id === id) >= 0;
+  }
+
+  getAlertInfo(option: 'add' | 'remove'): SweetAlertOptions {
+    switch (option) {
+      case 'add':
+        return ({
+          title: 'Saved to Collection',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+
+      case 'remove':
+        return ({
+          title: 'Removed from Collection',
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        });
     }
   }
 
-  isInCollection(id: string) {
-    return this.collectionVids.findIndex( item => item.id === id) >= 0;
-  }
-
   addToCollection(vidItem: VidItem) {
-    const collectionIds = this.collectionVids.map(item => item.id);
+    const collectionIds = this.collectionVids$.value.data.map(item => item.id);
     const isExisting = collectionIds.includes(vidItem.id);
     if (isExisting) {
       console.warn('vid id has been in collection!');
       return;
     }
 
-    this.collectionVids.push(vidItem);
-    console.log(this.collectionVids)
-    this.setLocalStorage(this.collectionVids);
+    const data = this.collectionVids$.value.data;
+    data.push(vidItem);
+    this.collectionVids$.next({data, update: true});
   }
 
   removeFromCollection(vidId: string) {
-    const collectionIds = this.collectionVids.map(item => item.id);
+    const collectionIds = this.collectionVids$.value.data.map(item => item.id);
     const isExisting = collectionIds.includes(vidId);
     if (!isExisting) {
       console.warn('vid is not in collection!');
       return;
     }
 
-    this.collectionVids = this.collectionVids.filter(item => item.id !== vidId);
-    this.setLocalStorage(this.collectionVids);
+    const data = this.collectionVids$.value.data.filter(item => item.id !== vidId);
+    this.collectionVids$.next({data, update: true});
   }
 
   private initVids$() {
@@ -85,13 +99,8 @@ export class DataHandlerService {
   }
 
   private initCollectionVids() {
-    const vids = JSON.parse(localStorage.getItem(COLLECTION_KEY));
-    if (vids) {
-      this.collectionVids = vids;
-    } else {
-      this.collectionVids = [];
-      this.setLocalStorage([]);
-    }
+    const data = JSON.parse(localStorage.getItem(COLLECTION_KEY)) || [];
+    this.collectionVids$.next({data, update: false});
   }
 
   private setLocalStorage(vids) {

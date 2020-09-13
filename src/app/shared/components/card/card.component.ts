@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {
-
-  VidSnippet, VidContentDetails, VidItem } from 'src/app/core/models/youtube-response.interface';
+import { VidSnippet, VidContentDetails, VidItem } from 'src/app/core/models/youtube-response.interface';
 import { DataHandlerService } from 'src/app/core/services/data-handler.service';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
-import Swal, { SweetAlertOptions } from 'sweetalert2';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-card',
@@ -33,12 +32,12 @@ export class CardComponent implements OnInit {
   onBookmarkClick(): void {
     if (this.isCollected) {
       this.dataHandler.removeFromCollection(this.data.id);
+      Swal.fire(this.dataHandler.getAlertInfo('remove'));
     } else {
       this.dataHandler.addToCollection(this.data);
+      Swal.fire(this.dataHandler.getAlertInfo('add'));
     }
 
-    const alertInfo = this.dataHandler.getAlertInfo(this.isCollected);
-    Swal.fire(alertInfo);
     this.isCollected = !this.isCollected;
   }
 

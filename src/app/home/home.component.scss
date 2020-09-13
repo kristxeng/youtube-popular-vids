@@ -16,6 +16,10 @@
   width: 100%;
 }
 
+.loading {
+  margin: 32px auto;
+}
+
 pagination-controls::ng-deep {
   display: block;
   justify-content: space-evenly;

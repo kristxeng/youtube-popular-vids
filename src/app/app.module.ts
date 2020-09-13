@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { CollectionComponent } from './collection/collection.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   imports: [
     SharedModule,
     BrowserModule,
+    FontAwesomeModule,
     NgxPaginationModule,
     AppRoutingModule,
     HttpClientModule

@@ -13,18 +13,19 @@
     }
   }
   &__bookmark {
+    cursor: pointer;
     position: absolute;
-    top: 10px;
+    top: 0;
     right: 10px;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     background-color: #000000aa;
     display: flex;
     justify-content: center;
     align-items: center;
 
     fa-icon {
-      opacity: 0.5;
+      opacity: 0.2;
     }
 
     &:hover {
@@ -57,4 +58,8 @@
 
     @include line-clamp(3);
   }
+}
+
+.without-opacity{
+  opacity: 1.0 !important;
 }
