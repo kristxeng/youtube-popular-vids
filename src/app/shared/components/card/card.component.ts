@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { VidItem, VidSnippet, VidContentDetails } from 'src/app/core/models/youtube-response.interface';
+import {
+
+  VidSnippet, VidContentDetails, VidItem } from 'src/app/core/models/youtube-response.interface';
 import { DataHandlerService } from 'src/app/core/services/data-handler.service';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import Swal, { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
   selector: 'app-card',
@@ -10,14 +13,16 @@ import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 })
 export class CardComponent implements OnInit {
 
-  @Input() data;
+  faBookmark = faBookmark;
+
+  @Input() data: VidItem;
 
   videoInfo: VidSnippet;
   thumbnailsUrl: string;
   contentDetails: VidContentDetails;
   durationStr: string;
 
-  faBookmark = faBookmark;
+  isCollected: boolean;
 
   constructor(private readonly dataHandler: DataHandlerService) { }
 
@@ -25,11 +30,23 @@ export class CardComponent implements OnInit {
     this.initData();
   }
 
+  onBookmarkClick(): void {
+    if (this.isCollected) {
+      this.dataHandler.removeFromCollection(this.data.id);
+    } else {
+      this.dataHandler.addToCollection(this.data);
+    }
+
+    const alertInfo = this.dataHandler.getAlertInfo(this.isCollected);
+    Swal.fire(alertInfo);
+    this.isCollected = !this.isCollected;
+  }
+
   private initData(): void {
     this.videoInfo = this.data.snippet;
     this.thumbnailsUrl = this.videoInfo.thumbnails.medium.url;
     this.contentDetails = this.data.contentDetails;
     this.durationStr = this.dataHandler.parseDuration(this.data.contentDetails.duration);
+    this.isCollected = this.dataHandler.isInCollection(this.data.id);
   }
-
 }

@@ -1,7 +1,10 @@
 <div class="card__img">
   <img src="{{thumbnailsUrl}}">
-  <div class="card__bookmark">
-    <fa-icon [icon]="faBookmark" [styles]="{color: '#fff'}"></fa-icon>
+  <div class="card__bookmark" (click)="onBookmarkClick()">
+    <fa-icon [icon]="faBookmark" [styles]="{color: '#116f6d'}" *ngIf="isCollected; else notCollected"></fa-icon>
+    <ng-template #notCollected>
+      <fa-icon [icon]="faBookmark" [styles]="{color: '#fff'}"></fa-icon>
+    </ng-template>
   </div>
   <div class="card__duration">{{durationStr}}</div>
 </div>

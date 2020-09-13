@@ -1,4 +1,4 @@
-<div class="card-container main-width" *ngIf="data; else loading">
+<div class="card-container main-width" *ngIf="data$ | async as data; else loading">
   <app-card *ngFor="let item of data | paginate: { itemsPerPage: 12, currentPage: pageNum }" [data]="item"></app-card>
 </div>
 <ng-template #loading>

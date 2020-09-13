@@ -5,14 +5,12 @@ import { CardComponent } from './components/card/card.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-
-
 @NgModule({
   declarations: [CardComponent, HeaderComponent],
   imports: [
     CommonModule,
     RouterModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   exports: [CardComponent, HeaderComponent]
 })
