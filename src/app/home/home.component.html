@@ -1,5 +1,14 @@
-<div class="card-container">
-  <app-card *ngFor="let item of data | paginate: { itemsPerPage: 12, currentPage: page }" [data]="item"></app-card>
+<div class="card-container main-width" *ngIf="data; else loading">
+  <app-card *ngFor="let item of data | paginate: { itemsPerPage: 12, currentPage: pageNum }" [data]="item"></app-card>
 </div>
+<ng-template #loading>
+  <div class="loading main-width">loading...</div>
+</ng-template>
 
-<pagination-controls (pageChange)="page = $event"></pagination-controls>
+<pagination-controls
+  responsive="true"
+  previousLabel=""
+  nextLabel=""
+  (pageChange)="onPageChange($event)"
+  (pageBoundsCorrection)="onPageChange($event)"
+></pagination-controls>
