@@ -1,3 +1,4 @@
+import { PlayComponent } from './play/play.component';
 import { CollectionComponent } from './collection/collection.component';
 import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,9 @@ const routes: Routes = [
   }, {
     path: 'collection',
     component: CollectionComponent
+  }, {
+    path: 'play',
+    component: PlayComponent,
   }, {
     path: '**',
     redirectTo: ''

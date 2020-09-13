@@ -9,12 +9,14 @@ import { CollectionComponent } from './collection/collection.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PlayComponent } from './play/play.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    CollectionComponent
+    CollectionComponent,
+    PlayComponent
   ],
   imports: [
     SharedModule,
