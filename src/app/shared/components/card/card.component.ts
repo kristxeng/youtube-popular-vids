@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { VidItem, VidSnippet, VidContentDetails } from 'src/app/core/models/youtube-response.interface';
 import { DataHandlerService } from 'src/app/core/services/data-handler.service';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-card',
@@ -15,6 +16,8 @@ export class CardComponent implements OnInit {
   thumbnailsUrl: string;
   contentDetails: VidContentDetails;
   durationStr: string;
+
+  faBookmark = faBookmark;
 
   constructor(private readonly dataHandler: DataHandlerService) { }
 
