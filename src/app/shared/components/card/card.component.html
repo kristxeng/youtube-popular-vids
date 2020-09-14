@@ -1,6 +1,6 @@
-<div class="card__img">
+<div class="card__img" (click)="redirectToPlay()">
   <img src="{{thumbnailsUrl}}">
-  <div class="card__bookmark" (click)="onBookmarkClick()">
+  <div class="card__bookmark" (click)="onBookmarkClick($event)">
     <fa-icon [icon]="faBookmark" size="lg" [styles]="{color: '#fff'}" [ngClass]="{'without-opacity': isCollected}"></fa-icon>
   </div>
   <div class="card__duration">{{durationStr}}</div>

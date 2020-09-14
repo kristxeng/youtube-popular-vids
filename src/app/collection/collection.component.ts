@@ -3,7 +3,7 @@ import { VidItem } from './../core/models/youtube-response.interface';
 import { Component, OnInit } from '@angular/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -22,10 +22,10 @@ export class CollectionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.data$ = this.dataHandler.collectionVids$.pipe(map(item => item.data));
+    this.data$ = this.dataHandler.collectionVids$;
   }
 
-  onRemoveClick(vidId: string) {
+  onRemoveClick(vidId: string): void {
     this.dataHandler.removeFromCollection(vidId);
     Swal.fire(this.dataHandler.getAlertInfo('remove'));
   }

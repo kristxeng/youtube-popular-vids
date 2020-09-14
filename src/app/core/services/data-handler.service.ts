@@ -2,15 +2,15 @@ import { GoogleYoutubeApiService } from './google-youtube-api.service';
 import { VidItem } from './../models/youtube-response.interface';
 import { Injectable } from '@angular/core';
 import { SweetAlertOptions } from 'sweetalert2';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 
-const COLLECTION_KEY = 'collectionVids';
+const COLLECTION_KEY = 'collectionVidIdss';
 
-interface CollectionVids {
-  data: VidItem[],
-  update: boolean,
+interface CollectionIds {
+  ids: string[];
+  update: boolean;
 }
 
 @Injectable({
@@ -19,19 +19,22 @@ interface CollectionVids {
 export class DataHandlerService {
 
   vids$: Observable<VidItem[]>;
-  collectionVids$ = new BehaviorSubject<CollectionVids>(null);
+  collectionVids$: Observable<VidItem[]>;
+
+  private collectionIds$ = new BehaviorSubject<CollectionIds>(null);
 
   constructor(
     private readonly apiService: GoogleYoutubeApiService,
   ) {
     this.initVids$();
-    this.initCollectionVids();
+    this.initCollectionIds();
+    this.initCollectionVids$();
 
-    this.collectionVids$.pipe(
+    this.collectionIds$.pipe(
       filter(item => !!item),
       filter(item => item.update),
     ).subscribe(item => {
-      this.setLocalStorage(item.data);
+      this.setLocalStorage(item.ids);
     });
   }
 
@@ -47,8 +50,8 @@ export class DataHandlerService {
     });
   }
 
-  isInCollection(id: string) {
-    return this.collectionVids$.value.data.findIndex( item => item.id === id) >= 0;
+  isIdInCollection(id: string): boolean {
+    return this.collectionIds$.value.ids.findIndex( item => item === id) >= 0;
   }
 
   getAlertInfo(option: 'add' | 'remove'): SweetAlertOptions {
@@ -69,42 +72,56 @@ export class DataHandlerService {
     }
   }
 
-  addToCollection(vidItem: VidItem) {
-    const collectionIds = this.collectionVids$.value.data.map(item => item.id);
-    const isExisting = collectionIds.includes(vidItem.id);
+  addToCollection(vidId: string): void {
+    const ids = this.collectionIds$.value.ids;
+    const isExisting = ids.includes(vidId);
     if (isExisting) {
       console.warn('vid id has been in collection!');
       return;
     }
 
-    const data = this.collectionVids$.value.data;
-    data.push(vidItem);
-    this.collectionVids$.next({data, update: true});
+
+    ids.push(vidId);
+    this.collectionIds$.next({ids, update: true});
   }
 
-  removeFromCollection(vidId: string) {
-    const collectionIds = this.collectionVids$.value.data.map(item => item.id);
-    const isExisting = collectionIds.includes(vidId);
+  removeFromCollection(vidId: string): void {
+    let ids = this.collectionIds$.value.ids;
+    const isExisting = ids.includes(vidId);
     if (!isExisting) {
       console.warn('vid is not in collection!');
       return;
     }
 
-    const data = this.collectionVids$.value.data.filter(item => item.id !== vidId);
-    this.collectionVids$.next({data, update: true});
+    ids = ids.filter(item => item !== vidId);
+    this.collectionIds$.next({ids, update: true});
   }
 
-  private initVids$() {
+  private initVids$(): void {
     this.vids$ = this.apiService.getList().pipe(map(res => res.items));
   }
 
-  private initCollectionVids() {
-    const data = JSON.parse(localStorage.getItem(COLLECTION_KEY)) || [];
-    this.collectionVids$.next({data, update: false});
+  private initCollectionVids$(): void {
+    this.collectionVids$ = this.collectionIds$.pipe(
+      map(data => data.ids),
+      tap(console.log),
+      switchMap(ids => {
+        if (ids && ids.length) {
+          return this.apiService.getlistByIds(ids).pipe(map(res => res.items));
+        } else {
+          return of([]);
+        }
+      })
+    );
   }
 
-  private setLocalStorage(vids) {
-    const vidsStrng = JSON.stringify(vids);
-    localStorage.setItem(COLLECTION_KEY, vidsStrng);
+  private initCollectionIds(): void {
+    const ids = JSON.parse(localStorage.getItem(COLLECTION_KEY)) || [];
+    this.collectionIds$.next({ids, update: false});
+  }
+
+  private setLocalStorage(vidIds): void {
+    const vidIdsStrng = JSON.stringify(vidIds);
+    localStorage.setItem(COLLECTION_KEY, vidIdsStrng);
   }
 }
