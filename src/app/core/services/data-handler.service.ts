@@ -60,14 +60,16 @@ export class DataHandlerService {
         return ({
           title: 'Saved to Collection',
           icon: 'success',
-          confirmButtonText: 'OK'
+          confirmButtonText: 'OK',
+          heightAuto: false,
         });
 
       case 'remove':
         return ({
           title: 'Removed from Collection',
           icon: 'warning',
-          confirmButtonText: 'OK'
+          confirmButtonText: 'OK',
+          heightAuto: false,
         });
     }
   }
