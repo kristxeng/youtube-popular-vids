@@ -5,6 +5,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-collection',
@@ -18,6 +19,7 @@ export class CollectionComponent implements OnInit {
   data$: Observable<VidItem[]>;
 
   constructor(
+    private readonly router: Router,
     private readonly dataHandler: DataHandlerService,
   ) { }
 
@@ -28,6 +30,11 @@ export class CollectionComponent implements OnInit {
   onRemoveClick(vidId: string): void {
     this.dataHandler.removeFromCollection(vidId);
     Swal.fire(this.dataHandler.getAlertInfo('remove'));
+  }
+
+  onImgClick(id: string) {
+    const queryParams = {id};
+    this.router.navigate(['/play'], { queryParams });
   }
 
 }
