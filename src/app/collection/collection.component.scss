@@ -10,14 +10,16 @@
 
   &__img {
     height: 100%;
+    flex: 0 0 120px;
 
     img {
+      object-fit: cover;
       height: 100%;
     }
   }
 
   &__content {
-    padding: 0 10px;
+    flex: 1 1 auto;
   }
 
   &__title {
@@ -29,6 +31,7 @@
 
   &__descrip {
     margin-top: 6px;
+    color: #aaa;
 
     @include line-clamp(3);
   }
@@ -36,9 +39,10 @@
   &__remove {
     margin-left: auto;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    padding-right: 10px;
+    flex: 0 0 36px;
+
   }
 }
 
