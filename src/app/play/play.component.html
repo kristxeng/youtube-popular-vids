@@ -1,0 +1,5 @@
+<div class="container" *ngIf="vidSnippet$ | async as vidSnippet">
+  <app-vjs-player [options]="options"></app-vjs-player>
+  <h3>{{vidSnippet.title}}</h3>
+  <p class="description">{{vidSnippet.description}}</p>
+</div>

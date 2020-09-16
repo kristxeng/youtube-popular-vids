@@ -1,0 +1,65 @@
+@import 'src/scss/mixins';
+
+:host {
+  display: block;
+}
+
+.card {
+  &__img {
+    width: 100%;
+    position: relative;
+    img {
+      width: inherit;
+    }
+  }
+  &__bookmark {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background-color: #000000aa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    fa-icon {
+      opacity: 0.2;
+    }
+
+    &:hover {
+      fa-icon {
+        opacity: 1;
+      }
+    }
+  }
+  &__duration {
+    color: #fff;
+    font-family: "Lucida Console", Monaco, monospace;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #000000aa;
+    padding: 3px;
+  }
+  &__content {
+    padding: 10px;
+  }
+  &__title {
+    font-size: 14px;
+    font-weight: bold;
+
+    @include line-clamp(2);
+  }
+  &__descrip {
+    color: #aaa;
+    margin-top: 6px;
+
+    @include line-clamp(3);
+  }
+}
+
+.without-opacity{
+  opacity: 1.0 !important;
+}

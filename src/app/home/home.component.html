@@ -1,0 +1,17 @@
+<ng-container *ngIf="data$ | async as data; else loading">
+  <div class="card-container">
+    <app-card *ngFor="let item of data | paginate: { itemsPerPage: 12, currentPage: pageNum }" [data]="item"></app-card>
+  </div>
+  <pagination-controls
+    responsive="true"
+    previousLabel=""
+    nextLabel=""
+    (pageChange)="onPageChange($event)"
+    (pageBoundsCorrection)="onPageChange($event)"
+  ></pagination-controls>
+</ng-container>
+
+<ng-template #loading>
+  <div class="loading">loading...</div>
+</ng-template>
+

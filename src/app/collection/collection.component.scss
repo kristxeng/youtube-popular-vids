@@ -1,0 +1,52 @@
+@import 'src/scss/mixins';
+
+
+.list {
+  &__item {
+    display: flex;
+    height: 80px;
+    margin-top: 10px;
+  }
+
+  &__img {
+    height: 100%;
+    flex: 0 0 120px;
+
+    img {
+      object-fit: cover;
+      height: 100%;
+    }
+  }
+
+  &__content {
+    flex: 1 1 auto;
+  }
+
+  &__title {
+    font-size: 14px;
+    font-weight: bold;
+
+    @include line-clamp(1);
+  }
+
+  &__descrip {
+    margin-top: 6px;
+    color: #aaa;
+
+    @include line-clamp(3);
+  }
+
+  &__remove {
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 36px;
+
+  }
+}
+
+.emptyWording {
+  margin: 36px auto;
+  text-align: center;
+}

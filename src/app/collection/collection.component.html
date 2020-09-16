@@ -1,0 +1,21 @@
+<div *ngIf="this.data$ | async as data">
+  <ul>
+    <li class="list__item" *ngFor="let vid of data">
+      <div class="list__img" (click)="onImgClick(vid.id)">
+        <img src={{vid.snippet.thumbnails.default.url}}>
+      </div>
+      <div class="list__content">
+        <div class="list__title">{{vid.snippet.title}}</div>
+        <div class="list__descrip">{{vid.snippet.description}}</div>
+      </div>
+      <div class="list__remove" (click)="onRemoveClick(vid.id)">
+        <fa-icon [icon]="faTimes" size="md" [styles]="{color: '#aaa'}"></fa-icon>
+      </div>
+    </li>
+  </ul>
+
+  <div class="emptyWording" *ngIf="!this.data.length">
+    Collection is Empty.
+  </div>
+</div>
+

@@ -1,0 +1,35 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  height: fit-content;
+  padding: 20px 0 42px;
+  position: relative;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 20px;
+  justify-content: center;
+  width: 100%;
+}
+
+.loading {
+  margin: 32px auto;
+}
+
+pagination-controls::ng-deep {
+  display: block;
+  justify-content: space-evenly;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  pagination-template{
+    display: flex;
+    justify-content: center;
+  }
+}
