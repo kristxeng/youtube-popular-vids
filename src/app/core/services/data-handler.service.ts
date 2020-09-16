@@ -1,5 +1,5 @@
 import { GoogleYoutubeApiService } from './google-youtube-api.service';
-import { VidItem } from './../models/youtube-response.interface';
+import { VidItem, VidSnippet } from './../models/youtube-response.interface';
 import { Injectable } from '@angular/core';
 import { SweetAlertOptions } from 'sweetalert2';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -95,6 +95,12 @@ export class DataHandlerService {
 
     ids = ids.filter(item => item !== vidId);
     this.collectionIds$.next({ids, update: true});
+  }
+
+  getSpecificVidSnippet$(id: string): Observable<VidSnippet> {
+    return this.apiService.getlistByIds([id]).pipe(
+      map(res => res.items[0].snippet),
+    );
   }
 
   private initVids$(): void {
