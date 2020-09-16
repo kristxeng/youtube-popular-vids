@@ -1,25 +1,35 @@
+@import "src/scss/mixins";
+
 header {
   background-color: #116f6d;
   width: 100%;
   height: var(--header-height);
   color: #fff;
-  position: fixed;
-  top: 0;
-  z-index: 99;
+
+  @include mobile-width {
+    height: var(--header-height-mobile);
+  }
 }
 
 ul {
   display: flex;
   justify-content: flex-end;
+  height: 100%;
   li {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 18px;
-    line-height: 64px;
     width: 120px;
-    text-align: center;
+    height: 100%;
 
     &.active {
       background-color: #ffffff33;
+    }
+
+    @include mobile-width {
+      font-size: 14px;
+      width: 80px;
     }
   }
 }

@@ -1,8 +1,22 @@
+@import "./variables";
 
 @mixin line-clamp($count) {
+  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: $count;
   -webkit-box-orient: vertical;
+}
+
+@mixin pad-width() {
+  @media all and (min-width: $mobile-width + 1) and (max-width: $pad-width) {
+    @content;
+  }
+}
+
+@mixin mobile-width() {
+  @media all and (max-width: $mobile-width) {
+    @content;
+  }
 }
